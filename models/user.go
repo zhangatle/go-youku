@@ -51,3 +51,16 @@ func UserSave(mobile string, password string) error {
 	_, err := o.Insert(&user)
 	return err
 }
+
+// 登录功能
+func IsMobileLogin(mobile string, password string) (int, string) {
+	o := orm.NewOrm()
+	var user User
+	err := o.QueryTable("user").Filter("mobile", mobile).Filter("password", password).One(&user)
+	if err == orm.ErrNoRows {
+		return 0, ""
+	} else if err == orm.ErrMissPK {
+		return 0, ""
+	}
+	return user.Id, user.Name
+}
