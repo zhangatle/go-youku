@@ -34,6 +34,15 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["go-youku/controllers:CommentController"] = append(beego.GlobalControllerRouter["go-youku/controllers:CommentController"],
+        beego.ControllerComments{
+            Method: "Save",
+            Router: `/comment/save`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["go-youku/controllers:TopController"] = append(beego.GlobalControllerRouter["go-youku/controllers:TopController"],
         beego.ControllerComments{
             Method: "ChannelTop",

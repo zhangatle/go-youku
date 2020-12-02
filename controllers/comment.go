@@ -91,3 +91,35 @@ func chanGetUserInfo(uidChan chan int, resChan chan models.UserInfo, closeChan c
 	}
 	closeChan <- true
 }
+
+// @router /comment/save [get]
+func (c *CommentController) Save() {
+	content := c.GetString("content")
+	uid, _ := c.GetInt("uid")
+	episodesId, _ := c.GetInt("episodesId")
+	videoId, _ := c.GetInt("videoId")
+	if content == "" {
+		c.Data["json"] = ReturnError(4001, "内容不能为空")
+		c.ServeJSON()
+	}
+	if uid == 0 {
+		c.Data["json"] = ReturnError(4002, "请先登录")
+		c.ServeJSON()
+	}
+	if episodesId == 0 {
+		c.Data["json"] = ReturnError(4003, "必须指定评论剧集ID")
+		c.ServeJSON()
+	}
+	if videoId == 0 {
+		c.Data["json"] = ReturnError(4005, "必须指定视频ID")
+		c.ServeJSON()
+	}
+	err := models.SaveComment(content, uid, episodesId, videoId)
+	if err == nil {
+		c.Data["json"] = ReturnSuccess(0, "success", "", 1)
+		c.ServeJSON()
+	} else {
+		c.Data["json"] = ReturnError(5000, err)
+		c.ServeJSON()
+	}
+}
