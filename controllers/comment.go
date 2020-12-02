@@ -92,7 +92,7 @@ func chanGetUserInfo(uidChan chan int, resChan chan models.UserInfo, closeChan c
 	closeChan <- true
 }
 
-// @router /comment/save [get]
+// @router /comment/save [post]
 func (c *CommentController) Save() {
 	content := c.GetString("content")
 	uid, _ := c.GetInt("uid")

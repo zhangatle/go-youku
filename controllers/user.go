@@ -25,7 +25,7 @@ func (c *UserController) SaveRegister() {
 	}
 	isorno, _ := regexp.MatchString(`^1(3|4|5|6|7|8)[0-9]\d{8}$`, mobile)
 	if !isorno {
-		c.Data["json"] = ReturnError(4002, "手机号格式不正确")
+		c.Data["json"] = ReturnError(4002, "手机号格式不正确！")
 		c.ServeJSON()
 	}
 	if password == "" {

@@ -9,6 +9,24 @@ func init() {
 
     beego.GlobalControllerRouter["go-youku/controllers:BaseController"] = append(beego.GlobalControllerRouter["go-youku/controllers:BaseController"],
         beego.ControllerComments{
+            Method: "Save",
+            Router: `/barrage/save`,
+            AllowHTTPMethods: []string{"*"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:BaseController"] = append(beego.GlobalControllerRouter["go-youku/controllers:BaseController"],
+        beego.ControllerComments{
+            Method: "BarrageWs",
+            Router: `/barrage/ws`,
+            AllowHTTPMethods: []string{"*"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:BaseController"] = append(beego.GlobalControllerRouter["go-youku/controllers:BaseController"],
+        beego.ControllerComments{
             Method: "ChannelRegion",
             Router: `/channel/region`,
             AllowHTTPMethods: []string{"get"},
@@ -38,7 +56,7 @@ func init() {
         beego.ControllerComments{
             Method: "Save",
             Router: `/comment/save`,
-            AllowHTTPMethods: []string{"get"},
+            AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
