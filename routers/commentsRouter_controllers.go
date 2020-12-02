@@ -7,6 +7,24 @@ import (
 
 func init() {
 
+    beego.GlobalControllerRouter["go-youku/controllers:BaseController"] = append(beego.GlobalControllerRouter["go-youku/controllers:BaseController"],
+        beego.ControllerComments{
+            Method: "ChannelRegion",
+            Router: `/channel/region`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:BaseController"] = append(beego.GlobalControllerRouter["go-youku/controllers:BaseController"],
+        beego.ControllerComments{
+            Method: "ChannelType",
+            Router: `/channel/type`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["go-youku/controllers:TopController"] = append(beego.GlobalControllerRouter["go-youku/controllers:TopController"],
         beego.ControllerComments{
             Method: "ChannelTop",
@@ -74,6 +92,33 @@ func init() {
         beego.ControllerComments{
             Method: "GetChannelRecommendTypeList",
             Router: `/channel/recommend/type`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:VideoController"] = append(beego.GlobalControllerRouter["go-youku/controllers:VideoController"],
+        beego.ControllerComments{
+            Method: "ChannelVideo",
+            Router: `/channel/video`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:VideoController"] = append(beego.GlobalControllerRouter["go-youku/controllers:VideoController"],
+        beego.ControllerComments{
+            Method: "VideoEpisodesList",
+            Router: `/video/episodes/list`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:VideoController"] = append(beego.GlobalControllerRouter["go-youku/controllers:VideoController"],
+        beego.ControllerComments{
+            Method: "VideoInfo",
+            Router: `/video/info`,
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
