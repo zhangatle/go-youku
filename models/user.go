@@ -64,3 +64,10 @@ func IsMobileLogin(mobile string, password string) (int, string) {
 	}
 	return user.Id, user.Name
 }
+
+func GetUserInfo(uid int) (UserInfo, error) {
+	o := orm.NewOrm()
+	var user UserInfo
+	err := o.Raw("select id,name, add_time,avatar from user where id=? limit 1", uid).QueryRow(&user)
+	return user, err
+}
