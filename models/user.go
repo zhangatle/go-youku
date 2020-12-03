@@ -2,6 +2,9 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"github.com/gomodule/redigo/redis"
+	redisClient "go-youku/services/redis"
+	"strconv"
 	"time"
 )
 
@@ -69,5 +72,27 @@ func GetUserInfo(uid int) (UserInfo, error) {
 	o := orm.NewOrm()
 	var user UserInfo
 	err := o.Raw("select id,name, add_time,avatar from user where id=? limit 1", uid).QueryRow(&user)
+	return user, err
+}
+
+func RedisGetUserInfo(uid int) (UserInfo, error) {
+	var user UserInfo
+	conn := redisClient.PoolConnect()
+	defer conn.Close()
+	redisKey := "user:id:" + strconv.Itoa(uid)
+	exists, err := redis.Bool(conn.Do("exists", redisKey))
+	if exists {
+		res, _ := redis.Values(conn.Do("hgetall", redisKey))
+		err = redis.ScanStruct(res, &user)
+	} else {
+		o := orm.NewOrm()
+		err := o.Raw("select id,name, add_time, avatar from user where id=? limit 1", uid).QueryRow(&user)
+		if err == nil {
+			_, err = conn.Do("hmset", redis.Args{redisKey}.AddFlat(user)...)
+			if err == nil {
+				_, _ = conn.Do("expire", redisKey, 86400)
+			}
+		}
+	}
 	return user, err
 }
