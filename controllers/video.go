@@ -146,3 +146,48 @@ func (c *VideoController) VideoEpisodesList() {
 		c.ServeJSON()
 	}
 }
+
+// @router /user/video [get]
+func (c *VideoController) UserVideo() {
+	uid, _ := c.GetInt("uid")
+	if uid == 0 {
+		c.Data["json"] = ReturnError(4001, "必须指定用户")
+		c.ServeJSON()
+	}
+	num, videos, err := models.GetUserVideo(uid)
+	if err != nil {
+		c.Data["json"] = ReturnError(4004, "没有相关内容")
+		c.ServeJSON()
+	} else {
+		c.Data["json"] = ReturnSuccess(0, "success", videos, num)
+		c.ServeJSON()
+	}
+}
+
+// @router /video/save [*]
+func (c *VideoController) VideoSave() {
+	playUrl := c.GetString("playUrl")
+	title := c.GetString("title")
+	subTitle := c.GetString("subTitle")
+	channelId, _ := c.GetInt("channelId")
+	typeId, _ := c.GetInt("typeId")
+	regionId, _ := c.GetInt("regionId")
+	uid, _ := c.GetInt("uid")
+	aliyunVideoId := c.GetString("aliyunVideoId")
+	if uid == 0 {
+		c.Data["json"] = ReturnError(4001, "请先登录")
+		c.ServeJSON()
+	}
+	if playUrl == "" {
+		c.Data["json"] = ReturnError(4002, "视频地址不能为空")
+		c.ServeJSON()
+	}
+	err := models.SaveVideo(title, subTitle, channelId, regionId, typeId, playUrl, uid, aliyunVideoId)
+	if err != nil {
+		c.Data["json"] = ReturnError(5000, err)
+		c.ServeJSON()
+	}else {
+		c.Data["json"] = ReturnSuccess(0, "success", nil, 1)
+		c.ServeJSON()
+	}
+}

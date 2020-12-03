@@ -7,6 +7,42 @@ import (
 
 func init() {
 
+    beego.GlobalControllerRouter["go-youku/controllers:AliyunController"] = append(beego.GlobalControllerRouter["go-youku/controllers:AliyunController"],
+        beego.ControllerComments{
+            Method: "CreateUploadVideo",
+            Router: `/aliyun/create/upload/video`,
+            AllowHTTPMethods: []string{"*"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:AliyunController"] = append(beego.GlobalControllerRouter["go-youku/controllers:AliyunController"],
+        beego.ControllerComments{
+            Method: "RefreshUploadVideo",
+            Router: `/aliyun/refresh/upload/video`,
+            AllowHTTPMethods: []string{"*"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:AliyunController"] = append(beego.GlobalControllerRouter["go-youku/controllers:AliyunController"],
+        beego.ControllerComments{
+            Method: "VideoCallback",
+            Router: `/aliyun/video/callback`,
+            AllowHTTPMethods: []string{"*"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:AliyunController"] = append(beego.GlobalControllerRouter["go-youku/controllers:AliyunController"],
+        beego.ControllerComments{
+            Method: "GetPlayAuth",
+            Router: `/aliyun/video/play/auth`,
+            AllowHTTPMethods: []string{"*"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["go-youku/controllers:BaseController"] = append(beego.GlobalControllerRouter["go-youku/controllers:BaseController"],
         beego.ControllerComments{
             Method: "Save",
@@ -144,6 +180,15 @@ func init() {
 
     beego.GlobalControllerRouter["go-youku/controllers:VideoController"] = append(beego.GlobalControllerRouter["go-youku/controllers:VideoController"],
         beego.ControllerComments{
+            Method: "UserVideo",
+            Router: `/user/video`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:VideoController"] = append(beego.GlobalControllerRouter["go-youku/controllers:VideoController"],
+        beego.ControllerComments{
             Method: "VideoEpisodesList",
             Router: `/video/episodes/list`,
             AllowHTTPMethods: []string{"get"},
@@ -156,6 +201,15 @@ func init() {
             Method: "VideoInfo",
             Router: `/video/info`,
             AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["go-youku/controllers:VideoController"] = append(beego.GlobalControllerRouter["go-youku/controllers:VideoController"],
+        beego.ControllerComments{
+            Method: "VideoSave",
+            Router: `/video/save`,
+            AllowHTTPMethods: []string{"*"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
