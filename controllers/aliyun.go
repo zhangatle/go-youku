@@ -31,27 +31,27 @@ type PlayJSONS struct {
 }
 
 type CallbackData struct {
-	EventTime string
-	EventType string
-	VideoId string
-	Status string
-	Exteng string
+	EventTime   string
+	EventType   string
+	VideoId     string
+	Status      string
+	Exteng      string
 	StreamInfos []CallbackStreamInfosData
 }
 
 type CallbackStreamInfosData struct {
-	Status string
-	Bitrate int
+	Status     string
+	Bitrate    int
 	Definition string
-	Duration int
-	Encrypt bool
-	FileUrl string
-	Format string
-	Fps int
-	Height int
-	Size int
-	Width int
-	JobId string
+	Duration   int
+	Encrypt    bool
+	FileUrl    string
+	Format     string
+	Fps        int
+	Height     int
+	Size       int
+	Width      int
+	JobId      string
 }
 
 func (c *AliyunController) InitVodClient(accessKeyId string, accessKeySecret string) (client *vod.Client, err error) {

@@ -33,7 +33,7 @@ func (c *TopController) ChannelTop() {
 		c.Data["json"] = ReturnError(4001, "必须指定频道")
 		c.ServeJSON()
 	}
-	num, videos, err := models.GetChannelTop(channelId)
+	num, videos, err := models.RedisGetChannelTop(channelId)
 	if err != nil {
 		c.Data["json"] = ReturnError(4004, "没有相关内容")
 		c.ServeJSON()

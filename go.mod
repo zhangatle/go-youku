@@ -7,6 +7,7 @@ require github.com/astaxie/beego v1.12.1
 require (
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.735
 	github.com/go-sql-driver/mysql v1.4.1
+	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/gorilla/websocket v1.4.2
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
