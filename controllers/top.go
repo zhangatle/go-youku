@@ -20,7 +20,7 @@ func (c *TopController) TypeTop() {
 	if err != nil {
 		c.Data["json"] = ReturnError(4004, "没有相关内容")
 		c.ServeJSON()
-	}else{
+	} else {
 		c.Data["json"] = ReturnSuccess(0, "success", videos, num)
 		c.ServeJSON()
 	}
@@ -37,7 +37,7 @@ func (c *TopController) ChannelTop() {
 	if err != nil {
 		c.Data["json"] = ReturnError(4004, "没有相关内容")
 		c.ServeJSON()
-	}else{
+	} else {
 		c.Data["json"] = ReturnSuccess(0, "success", videos, num)
 		c.ServeJSON()
 	}

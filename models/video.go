@@ -62,7 +62,7 @@ func GetChannelHot(channelId int) (int64, []VideoData, error) {
 	return num, videos, err
 }
 
-func GetChannelRecommendRegionList(channelId int, regionId int) (int64, []VideoData, error){
+func GetChannelRecommendRegionList(channelId int, regionId int) (int64, []VideoData, error) {
 	o := orm.NewOrm()
 	var videos []VideoData
 	num, err := o.Raw("select id, title, sub_title, add_time, img, img1, episodes_count, is_end from video where status=1 and is_recommend=1 and region_id=? and channel_id=? order by episodes_update_time desc limit 9", regionId, channelId).QueryRows(&videos)
@@ -86,7 +86,7 @@ func GetTypeTop(typeId int) (int64, []VideoData, error) {
 func RedisGetTypeTop(typeId int) (int64, []VideoData, error) {
 	var (
 		videos []VideoData
-		num int64
+		num    int64
 	)
 	conn := redisClient.PoolConnect()
 	defer conn.Close()
@@ -133,7 +133,7 @@ func RedisGetTypeTop(typeId int) (int64, []VideoData, error) {
 func RedisGetChannelTop(channelId int) (int64, []VideoData, error) {
 	var (
 		videos []VideoData
-		num int64
+		num    int64
 	)
 	conn := redisClient.PoolConnect()
 	defer conn.Close()
@@ -198,8 +198,8 @@ func GetChannelVideoList(channelId int, regionId int, typeId int, end string, so
 	}
 	if end == "n" {
 		qs = qs.Filter("is_end", 0)
-	}else if end == "y" {
-		qs = qs.Filter("is_end",1)
+	} else if end == "y" {
+		qs = qs.Filter("is_end", 1)
 	}
 	if sort == "episodesUpdateTime" {
 		qs = qs.OrderBy("-episodes_update_time")
@@ -211,7 +211,7 @@ func GetChannelVideoList(channelId int, regionId int, typeId int, end string, so
 		qs = qs.OrderBy("-add_time")
 	}
 	nums, _ := qs.Values(&videos, "id", "title", "sub_title", "add_time", "img", "img1", "episodes_count", "is_end")
-	qs = qs.Limit(limit,offset)
+	qs = qs.Limit(limit, offset)
 	_, err := qs.Values(&videos, "id", "title", "sub_title", "add_time", "img", "img1", "episodes_count", "is_end")
 	return nums, videos, err
 }
@@ -256,8 +256,8 @@ func GetVideoEpisodesList(videoId int) (int64, []Episodes, error) {
 func RedisGetVideoEpisodesList(videoId int) (int64, []Episodes, error) {
 	var (
 		episodes []Episodes
-		num int64
-		err error
+		num      int64
+		err      error
 	)
 	conn := redisClient.PoolConnect()
 	defer conn.Close()

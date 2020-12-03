@@ -8,10 +8,9 @@ import (
 
 // 直接连接
 func Connect() redis.Conn {
-	pool, _ := redis.Dial("tcp", beego.AppConfig.String("redisdb"),redis.DialPassword("Itzler.666"))
+	pool, _ := redis.Dial("tcp", beego.AppConfig.String("redisdb"), redis.DialPassword("Itzler.666"))
 	return pool
 }
-
 
 // 通过连接池连接
 func PoolConnect() redis.Conn {
@@ -27,7 +26,7 @@ func PoolConnect() redis.Conn {
 		Wait: true,
 		// 建立连接
 		Dial: func() (redis.Conn, error) {
-			c, err := redis.Dial("tcp", beego.AppConfig.String("redisdb"),redis.DialPassword("Itzler.666"))
+			c, err := redis.Dial("tcp", beego.AppConfig.String("redisdb"), redis.DialPassword("Itzler.666"))
 			if err != nil {
 				return nil, err
 			}

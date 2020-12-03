@@ -14,7 +14,7 @@ type BarrageController struct {
 
 type WsData struct {
 	CurrentTime int
-	EpisodesId int
+	EpisodesId  int
 }
 
 var (
@@ -28,9 +28,9 @@ var (
 // @router /barrage/ws [*]
 func (c *BaseController) BarrageWs() {
 	var (
-		conn *websocket.Conn
-		err error
-		data []byte
+		conn     *websocket.Conn
+		err      error
+		data     []byte
 		barrages []models.BarrageData
 	)
 	if conn, err = upgrader.Upgrade(c.Ctx.ResponseWriter, c.Ctx.Request, nil); err != nil {
@@ -50,8 +50,8 @@ func (c *BaseController) BarrageWs() {
 			}
 		}
 	}
-	ERR:
-		conn.Close()
+ERR:
+	conn.Close()
 }
 
 // @router /barrage/save [*]
@@ -85,7 +85,7 @@ func (c *BaseController) Save() {
 	if err != nil {
 		c.Data["json"] = ReturnError(5000, err)
 		c.ServeJSON()
-	}else{
+	} else {
 		c.Data["json"] = ReturnSuccess(0, "success", "", 1)
 		c.ServeJSON()
 	}

@@ -3,12 +3,12 @@ package models
 import "github.com/astaxie/beego/orm"
 
 type Region struct {
-	Id int
+	Id   int
 	Name string
 }
 
 type Type struct {
-	Id int
+	Id   int
 	Name string
 }
 

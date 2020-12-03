@@ -186,7 +186,7 @@ func (c *VideoController) VideoSave() {
 	if err != nil {
 		c.Data["json"] = ReturnError(5000, err)
 		c.ServeJSON()
-	}else {
+	} else {
 		c.Data["json"] = ReturnSuccess(0, "success", nil, 1)
 		c.ServeJSON()
 	}

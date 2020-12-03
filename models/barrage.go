@@ -17,9 +17,9 @@ type Barrage struct {
 }
 
 type BarrageData struct {
-	Id int `json:"id"`
-	Content string `json:"content"`
-	CurrentTime int `json:"currentTime"`
+	Id          int    `json:"id"`
+	Content     string `json:"content"`
+	CurrentTime int    `json:"currentTime"`
 }
 
 func init() {

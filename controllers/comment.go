@@ -83,7 +83,7 @@ func (c *CommentController) List() {
 
 func chanGetUserInfo(uidChan chan int, resChan chan models.UserInfo, closeChan chan bool)  {
 	for uid := range uidChan {
-		res, err := models.GetUserInfo(uid)
+		res, err := models.RedisGetUserInfo(uid)
 		fmt.Println(res)
 		if err == nil {
 			resChan <- res
