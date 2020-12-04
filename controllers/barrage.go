@@ -41,7 +41,7 @@ func (c *BaseController) BarrageWs() {
 			goto ERR
 		}
 		var wsData WsData
-		json.Unmarshal([]byte(data), &wsData)
+		_ = json.Unmarshal([]byte(data), &wsData)
 		endTime := wsData.CurrentTime + 60
 		_, barrages, err = models.BarrageList(wsData.EpisodesId, wsData.CurrentTime, endTime)
 		if err == nil {

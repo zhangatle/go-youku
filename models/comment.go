@@ -1,7 +1,9 @@
 package models
 
 import (
+	"encoding/json"
 	"github.com/astaxie/beego/orm"
+	"go-youku/services/mq"
 	"time"
 )
 
@@ -41,8 +43,21 @@ func SaveComment(content string, uid int, episodesId int, videoId int) error {
 	comment.AddTime = time.Now().Unix()
 	_, err := o.Insert(&comment)
 	if err == nil {
-		o.Raw("update video set comment=comment+1 where id=?", videoId).Exec()
-		o.Raw("update video_episodes set comment=comment+1 where id=?", episodesId).Exec()
+		_, _ = o.Raw("update video set comment=comment+1 where id=?", videoId).Exec()
+		_, _ = o.Raw("update video_episodes set comment=comment+1 where id=?", episodesId).Exec()
+		// 通过mq更新redis排行榜
+		videoObj := map[string]int{
+			"VideoId" : videoId,
+		}
+		videoJson, _ := json.Marshal(videoObj)
+		_ = mq.Publish("", "youku_top", string(videoJson))
+		// 延迟增加评论数
+		videoCountObj := map[string]int{
+			"VideoId" : videoId,
+			"EpisodesId": episodesId,
+		}
+		videoCountJson, _ := json.Marshal(videoCountObj)
+		_ = mq.PublishDlx("youku_comment.count", string(videoCountJson))
 	}
 	return err
 }
