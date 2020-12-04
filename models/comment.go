@@ -57,7 +57,7 @@ func SaveComment(content string, uid int, episodesId int, videoId int) error {
 			"EpisodesId": episodesId,
 		}
 		videoCountJson, _ := json.Marshal(videoCountObj)
-		_ = mq.PublishDlx("youku_comment.count", string(videoCountJson))
+		_ = mq.PublishDlx("youku.comment.count", string(videoCountJson))
 	}
 	return err
 }
