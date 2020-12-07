@@ -1,9 +1,12 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"go-youku/models"
 	"regexp"
+	"strconv"
+	"strings"
 )
 
 type UserController struct {
@@ -74,4 +77,61 @@ func (c *UserController) LoginDo() {
 		c.Data["json"] = ReturnError(4004, "手机号或者密码不正确")
 		c.ServeJSON()
 	}
+}
+
+type SendData struct {
+	UserId int
+	MessageId int64
+}
+
+// 批量发送消息
+// @router /send/message [*]
+func (c *UserController) SendMessageDo() {
+	uids := c.GetString("uids")
+	content := c.GetString("content")
+	if uids == "" {
+		c.Data["json"] = ReturnError(4001, "请填写接收人")
+		c.ServeJSON()
+	}
+	if content == "" {
+		c.Data["json"] = ReturnError(4001, "请填写发送内容")
+		c.ServeJSON()
+	}
+	messageId, err := models.SendMessageDo(content)
+	if err == nil {
+		uidConfig := strings.Split(uids, ",")
+		count := len(uidConfig)
+		sendChan := make(chan SendData, count)
+		closeChan := make(chan bool, count)
+		go func() {
+			var data SendData
+			for _, v := range uidConfig {
+				userId, _ := strconv.Atoi(v)
+				data.UserId = userId
+				data.MessageId = messageId
+				sendChan<-data
+			}
+			close(sendChan)
+		}()
+		for i:=0;i<5;i++{
+			go sendMessageFunc(sendChan,closeChan)
+		}
+		for i:=0;i<5;i++ {
+			<-closeChan
+		}
+		close(closeChan)
+		c.Data["json"] = ReturnSuccess(0, "发送成功", "", 1)
+		c.ServeJSON()
+	} else {
+		c.Data["json"] = ReturnError(5000, "发送失败，请联系客服")
+		c.ServeJSON()
+	}
+}
+
+func sendMessageFunc(sendChan chan SendData, closeChan chan bool)  {
+	for t := range sendChan {
+		fmt.Println(t)
+		models.SendMessageUserMq(t.UserId, t.MessageId)
+	}
+	closeChan<-true
 }
